@@ -1,0 +1,16 @@
+{
+  "name": "@intent-bridge/core",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "nostr-tools": "^2.7.0",
+    "ethers": "^6.10.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  }
+}

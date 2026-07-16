@@ -1,0 +1,7 @@
+{
+  "name": "intent-bridge-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}
