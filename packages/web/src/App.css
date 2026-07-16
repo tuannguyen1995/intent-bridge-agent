@@ -28,6 +28,12 @@ body {
 }
 
 /* Background Grid Effect */
+.aurora-bg { position: fixed; inset: 0; z-index: -2; background: var(--bg); overflow: hidden; pointer-events: none; }
+.aurora-bg::before, .aurora-bg::after { content: ''; position: absolute; width: 60vw; height: 60vw; border-radius: 50%; filter: blur(120px); opacity: 0.15; animation: auroraFlow 20s infinite alternate ease-in-out; }
+.aurora-bg::before { top: -20%; left: -10%; background: #ffffff; }
+.aurora-bg::after { bottom: -20%; right: -10%; background: #ffffff; animation-delay: -10s; }
+@keyframes auroraFlow { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(10vw, 10vh) scale(1.2); } }
+
 .bg-grid {
   position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background-image: 

@@ -88,6 +88,7 @@ function App() {
 
   return (
     <div className="layout-wrapper">
+      <div className="aurora-bg"></div>
       <div className="bg-grid"></div>
 
       {/* Top Navbar */}
@@ -116,7 +117,7 @@ function App() {
             <button className={`nav-tab ${activeTab === 'settings' && !selectedIntent ? 'active' : ''}`} onClick={() => {setActiveTab('settings'); setSelectedIntent(null);}}>Settings</button>
           </div>
           <div className="nav-right">
-            <a href="https://github.com/tuannguyen1995/intent-bridge-agent" target="_blank" rel="noreferrer" className="github-link"><GithubIcon /></a>
+            <a href="https://github.com/Unicity-Network" target="_blank" rel="noreferrer" className="github-link"><GithubIcon /></a>
             <div className="status-indicator">
               <span className="dot"></span>
               Operational
@@ -388,7 +389,7 @@ function App() {
               <h4>Protocol</h4>
               <a href="#" onClick={(e) => handleLink(e, 'Whitepaper')}>Whitepaper</a>
               <a href="#" onClick={(e) => handleLink(e, 'Security Audits')}>Security Audits</a>
-              <a href="https://github.com/tuannguyen1995/intent-bridge-agent" target="_blank" rel="noreferrer">Github</a>
+              <a href="https://github.com/Unicity-Network" target="_blank" rel="noreferrer">Github</a>
             </div>
             <div className="link-col">
               <h4>Resources</h4>
