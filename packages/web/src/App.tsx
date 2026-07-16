@@ -28,6 +28,7 @@ function App() {
   const [simAmount, setSimAmount] = useState('1000');
   const [simTarget, setSimTarget] = useState('Base');
   const [simulating, setSimulating] = useState(false);
+  const [routes, setRoutes] = useState<any[] | null>(null);
   const [toast, setToast] = useState<string | null>(null);
 
   const showToast = (msg: string) => {
