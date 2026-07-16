@@ -8,7 +8,7 @@ const ShieldIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="n
 const GlobeIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>;
 const TerminalIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>;
 const RouteIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="19" r="3"></circle><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"></path><circle cx="18" cy="5" r="3"></circle></svg>;
-const LockIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>;
+const BrainIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"></path><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"></path></svg>;
 
 const mockLogs = [
   "[SYSTEM] Initializing Unicity Sphere SDK v2 Engine...",
@@ -31,6 +31,22 @@ function App() {
   const [simTarget, setSimTarget] = useState('Base');
   const [simulating, setSimulating] = useState(false);
   const [routes, setRoutes] = useState<any[] | null>(null);
+  const [auditOpen, setAuditOpen] = useState(false);
+
+  // Mouse tracking for glowing borders
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      document.querySelectorAll('.bento-card').forEach((card) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        (card as HTMLElement).style.setProperty('--mouse-x', `${x}px`);
+        (card as HTMLElement).style.setProperty('--mouse-y', `${y}px`);
+      });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   useEffect(() => {
     if (terminalRef.current) terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
@@ -48,12 +64,12 @@ function App() {
   }, []);
 
   const runSimulation = () => {
-    setSimulating(true); setRoutes(null);
+    setSimulating(true); setRoutes(null); setAuditOpen(false);
     setTimeout(() => {
       setRoutes([
-        { name: 'Atomic Path (Agent Recommended)', time: '~45s', gas: '$0.85', risk: 12, recommended: true },
-        { name: 'Standard Liquidity Pool', time: '~2m', gas: '$1.20', risk: 45, recommended: false },
-        { name: 'Legacy Lock & Mint', time: '~15m', gas: '$5.00', risk: 85, recommended: false },
+        { name: 'Atomic Fast (Agent Pick)', time: 45, timeStr: '~45s', gas: 0.85, risk: 12, recommended: true },
+        { name: 'Standard Liquidity Pool', time: 120, timeStr: '~2m', gas: 1.20, risk: 45, recommended: false },
+        { name: 'Legacy Lock & Mint', time: 900, timeStr: '~15m', gas: 5.00, risk: 85, recommended: false },
       ]);
       setSimulating(false);
     }, 1200);
@@ -71,12 +87,12 @@ function App() {
         <div className="logo-section">
           <div className="brand-orb"></div>
           <span className="brand-name">IntentBridge</span>
-          <div className="version-badge">BETA v2.0</div>
+          <div className="version-badge">GOD-TIER v3.0</div>
         </div>
         <div className="header-actions">
           <div className="live-status">
             <span className="pulsing-dot"></span>
-            Sphere SDK Active
+            Agent Network Online
           </div>
           <button className="primary-btn">Connect Workspace</button>
         </div>
@@ -84,13 +100,13 @@ function App() {
 
       <main className="pro-main">
         {/* Minimal Hero */}
-        <section className="hero-block">
+        <section className="hero-block animate-fade-in-up">
           <h1 className="hero-text">Intelligent Cross-Chain <br/><span className="highlight-text">Autonomous Settlement</span></h1>
           <p className="hero-subtext">Zero honeypots. Absolute atomic precision. Powered by Unicity Agentic Networks.</p>
         </section>
 
         {/* Top Metrics Row */}
-        <section className="metrics-grid">
+        <section className="metrics-grid animate-fade-in-up delay-1">
           <div className="metric-box">
             <div className="metric-icon-wrap"><ZapIcon /></div>
             <div className="metric-data">
@@ -113,10 +129,10 @@ function App() {
             </div>
           </div>
           <div className="metric-box">
-            <div className="metric-icon-wrap"><LockIcon /></div>
+            <div className="metric-icon-wrap"><GlobeIcon /></div>
             <div className="metric-data">
-              <span className="metric-label">Current Escrow Value</span>
-              <span className="metric-val">$45,200.00</span>
+              <span className="metric-label">Active Nodes</span>
+              <span className="metric-val text-blue">42 Global</span>
             </div>
           </div>
         </section>
@@ -124,11 +140,50 @@ function App() {
         {/* Bento Grid Layout */}
         <section className="bento-grid">
           
+          {/* Interactive Cross-Chain Node Graph */}
+          <div className="bento-card col-span-2 animate-fade-in-up delay-2">
+            <div className="card-top">
+              <h3 className="card-title"><GlobeIcon /> Live Cross-Chain Routing Graph</h3>
+              <span className="badge-outline">Real-time</span>
+            </div>
+            <div className="graph-container">
+              <svg className="node-graph" viewBox="0 0 600 200">
+                {/* Lines */}
+                <path className="graph-line" d="M 300 100 L 100 100" />
+                <path className="graph-line" d="M 300 100 L 500 50" />
+                <path className="graph-line" d="M 300 100 L 500 150" />
+                
+                {/* Data Packets (Animations) */}
+                <circle className="data-packet p-1" r="3" fill="#8b5cf6" />
+                <circle className="data-packet p-2" r="3" fill="#8b5cf6" />
+                <circle className="data-packet p-3" r="3" fill="#8b5cf6" />
+
+                {/* Nodes */}
+                <g className="node unicity-node">
+                  <circle cx="300" cy="100" r="15" fill="#1a1a1a" stroke="#8b5cf6" strokeWidth="2" />
+                  <circle cx="300" cy="100" r="25" fill="none" stroke="#8b5cf6" strokeWidth="1" className="pulse-ring" />
+                  <text x="300" y="135" textAnchor="middle" fill="#fff" fontSize="12" fontWeight="600">Unicity Agent</text>
+                </g>
+                <g className="node">
+                  <circle cx="100" cy="100" r="12" fill="#1a1a1a" stroke="#3b82f6" strokeWidth="2" />
+                  <text x="100" y="130" textAnchor="middle" fill="#888" fontSize="11">Ethereum</text>
+                </g>
+                <g className="node">
+                  <circle cx="500" cy="50" r="12" fill="#1a1a1a" stroke="#10b981" strokeWidth="2" />
+                  <text x="500" y="80" textAnchor="middle" fill="#888" fontSize="11">Base</text>
+                </g>
+                <g className="node">
+                  <circle cx="500" cy="150" r="12" fill="#1a1a1a" stroke="#f59e0b" strokeWidth="2" />
+                  <text x="500" y="180" textAnchor="middle" fill="#888" fontSize="11">Arbitrum</text>
+                </g>
+              </svg>
+            </div>
+          </div>
+
           {/* Large Terminal Block */}
-          <div className="bento-card col-span-2 terminal-card">
+          <div className="bento-card terminal-card animate-fade-in-up delay-3">
             <div className="card-top">
               <h3 className="card-title"><TerminalIcon /> Agent Execution Logs</h3>
-              <span className="badge-outline">Live Feed</span>
             </div>
             <div className="term-wrapper">
               <div className="term-window" ref={terminalRef}>
@@ -148,87 +203,67 @@ function App() {
             </div>
           </div>
 
-          {/* Route Simulator Block */}
-          <div className="bento-card">
+          {/* Route Simulator Block with Chart */}
+          <div className="bento-card col-span-2 animate-fade-in-up delay-4">
             <div className="card-top">
-              <h3 className="card-title"><RouteIcon /> Route Simulator</h3>
+              <h3 className="card-title"><RouteIcon /> Visual Route Engine Simulator</h3>
+              {routes && <button className="audit-btn" onClick={() => setAuditOpen(!auditOpen)}><BrainIcon /> Audit Decision</button>}
             </div>
-            <div className="simulator-body">
-              <div className="pro-input-group">
-                <label>Amount (UCT)</label>
-                <input type="number" value={simAmount} onChange={e => setSimAmount(e.target.value)} />
-              </div>
-              <div className="pro-input-group">
-                <label>Destination Chain</label>
-                <select value={simTarget} onChange={e => setSimTarget(e.target.value)}>
-                  <option>Base Network</option>
-                  <option>Ethereum Mainnet</option>
-                  <option>Arbitrum One</option>
-                </select>
-              </div>
-              <button className="pro-btn-full" onClick={runSimulation} disabled={simulating}>
-                {simulating ? 'Analyzing Graph...' : 'Calculate Optimal Path'}
-              </button>
-              
-              {routes && (
-                <div className="routes-list mt-4">
-                  {routes.map((r, i) => (
-                    <div key={i} className={`route-item ${r.recommended ? 'route-active' : ''}`}>
-                      <div className="route-header">
-                        <span className="route-name">{r.name}</span>
-                      </div>
-                      <div className="route-meta">
-                        <span>{r.time}</span> • <span>{r.gas}</span> • <span className={r.risk < 20 ? 'text-green' : 'text-orange'}>Risk: {r.risk}</span>
-                      </div>
-                    </div>
-                  ))}
+            <div className="simulator-split">
+              <div className="sim-controls">
+                <div className="pro-input-group">
+                  <label>Amount (UCT)</label>
+                  <input type="number" value={simAmount} onChange={e => setSimAmount(e.target.value)} />
                 </div>
-              )}
-            </div>
-          </div>
+                <div className="pro-input-group">
+                  <label>Destination Chain</label>
+                  <select value={simTarget} onChange={e => setSimTarget(e.target.value)}>
+                    <option>Base Network</option>
+                    <option>Ethereum Mainnet</option>
+                    <option>Arbitrum One</option>
+                  </select>
+                </div>
+                <button className="pro-btn-full" onClick={runSimulation} disabled={simulating}>
+                  {simulating ? 'Analyzing Graph...' : 'Simulate Engine Decision'}
+                </button>
+              </div>
 
-          {/* Live Orderbook Block */}
-          <div className="bento-card col-span-2">
-            <div className="card-top">
-              <h3 className="card-title"><GlobeIcon /> Global Intent Orderbook</h3>
-              <button className="text-btn">View All</button>
+              <div className="sim-visuals">
+                {!routes ? (
+                  <div className="empty-chart">Run simulation to view comparative routing graph.</div>
+                ) : (
+                  <div className="chart-container fade-in">
+                    <h4 className="chart-title">Gas & Time Optimization Matrix</h4>
+                    <div className="bar-chart">
+                      {routes.map((r, i) => (
+                        <div key={i} className={`chart-row ${r.recommended ? 'row-active' : ''}`}>
+                          <div className="chart-label">{r.name}</div>
+                          <div className="chart-bars">
+                            <div className="bar gas-bar" style={{ width: `${Math.min(r.gas * 15, 100)}%` }}>${r.gas}</div>
+                            <div className="bar time-bar" style={{ width: `${Math.min(r.time / 10, 100)}%` }}>{r.timeStr}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="table-responsive">
-              <table className="pro-table">
-                <thead>
-                  <tr>
-                    <th>Intent Hash</th>
-                    <th>Volume</th>
-                    <th>Destination</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="font-mono text-dim">0x8F1A...42B9</td>
-                    <td className="font-medium">500.00 UCT</td>
-                    <td>Base Network</td>
-                    <td><span className="pro-tag tag-success">Settled</span></td>
-                  </tr>
-                  <tr>
-                    <td className="font-mono text-dim">0x9B2C...11A3</td>
-                    <td className="font-medium">1,200.50 USDC</td>
-                    <td>Arbitrum</td>
-                    <td><span className="pro-tag tag-processing">Routing</span></td>
-                  </tr>
-                  <tr>
-                    <td className="font-mono text-dim">0x3D8E...99FF</td>
-                    <td className="font-medium">250.00 UCT</td>
-                    <td>Optimism</td>
-                    <td><span className="pro-tag tag-open">Open</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+
+            {/* AI Audit Panel */}
+            {auditOpen && routes && (
+              <div className="audit-panel fade-in-down">
+                <div className="audit-header"><BrainIcon /> Agent Intelligence Audit</div>
+                <div className="audit-body">
+                  <p><strong>Intent Analysis:</strong> Requesting bridge of {simAmount} UCT to {simTarget}.</p>
+                  <p><strong>Decision Rationale:</strong> The <em>Atomic Fast</em> path was selected because it avoids the $5.00 gas fee of Legacy Lock & Mint, and bypasses the 45% risk score of standard Liquidity Pools which currently suffer from high slippage on {simTarget}. Hashed Timelock Contracts guarantee execution safety.</p>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Risk Limits Block */}
-          <div className="bento-card">
+          <div className="bento-card animate-fade-in-up delay-5">
             <div className="card-top">
               <h3 className="card-title"><ShieldIcon /> Agent Constraints</h3>
             </div>
