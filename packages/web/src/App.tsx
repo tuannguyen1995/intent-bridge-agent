@@ -28,7 +28,17 @@ function App() {
   const [simAmount, setSimAmount] = useState('1000');
   const [simTarget, setSimTarget] = useState('Base');
   const [simulating, setSimulating] = useState(false);
-  const [routes, setRoutes] = useState<any[] | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setToast(msg);
+    setTimeout(() => setToast(null), 3000);
+  };
+
+  const handleLink = (e: React.MouseEvent, type: string) => {
+    e.preventDefault();
+    showToast(`${type} module is currently under development for Testnet Phase 2.`);
+  };
 
   // Background Grid Follow Mouse
   useEffect(() => {
@@ -81,14 +91,22 @@ function App() {
 
       {/* Top Navbar */}
       <nav className="navbar">
+        {/* Toast Notification */}
+        {toast && (
+          <div className="toast fade-in-up">
+            <span className="toast-icon">ℹ️</span>
+            {toast}
+          </div>
+        )}
+
         <div className="nav-container">
           <div className="nav-left">
             <div className="logo-dot"></div>
             <span className="brand">IntentBridge</span>
             <div className="nav-links">
-              <a href="#">Docs</a>
-              <a href="#">Mempool</a>
-              <a href="#">Faucet</a>
+              <a href="#" onClick={(e) => handleLink(e, 'Documentation')}>Docs</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setActiveTab('overview'); setSelectedIntent(null); }}>Mempool</a>
+              <a href="#" onClick={(e) => handleLink(e, 'Testnet Faucet')}>Faucet</a>
             </div>
           </div>
           <div className="nav-center">
@@ -97,7 +115,7 @@ function App() {
             <button className={`nav-tab ${activeTab === 'settings' && !selectedIntent ? 'active' : ''}`} onClick={() => {setActiveTab('settings'); setSelectedIntent(null);}}>Settings</button>
           </div>
           <div className="nav-right">
-            <a href="#" className="github-link"><GithubIcon /></a>
+            <a href="https://github.com/tuannguyen1995/intent-bridge-agent" target="_blank" rel="noreferrer" className="github-link"><GithubIcon /></a>
             <div className="status-indicator">
               <span className="dot"></span>
               Operational
@@ -367,15 +385,15 @@ function App() {
           <div className="f-links">
             <div className="link-col">
               <h4>Protocol</h4>
-              <a href="#">Whitepaper</a>
-              <a href="#">Security Audits</a>
-              <a href="#">Github</a>
+              <a href="#" onClick={(e) => handleLink(e, 'Whitepaper')}>Whitepaper</a>
+              <a href="#" onClick={(e) => handleLink(e, 'Security Audits')}>Security Audits</a>
+              <a href="https://github.com/tuannguyen1995/intent-bridge-agent" target="_blank" rel="noreferrer">Github</a>
             </div>
             <div className="link-col">
               <h4>Resources</h4>
-              <a href="#">Developer API</a>
-              <a href="#">Unicity Network</a>
-              <a href="#">Brand Assets</a>
+              <a href="#" onClick={(e) => handleLink(e, 'Developer API')}>Developer API</a>
+              <a href="https://unicity.network" target="_blank" rel="noreferrer">Unicity Network</a>
+              <a href="#" onClick={(e) => handleLink(e, 'Brand Assets')}>Brand Assets</a>
             </div>
           </div>
           <div className="f-right">
